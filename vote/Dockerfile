@@ -1,6 +1,6 @@
-FROM python:3.13-rc-slim
+FROM python:3.11-slim
 WORKDIR /app
-ADD . /app/
+ADD . .
 
 EXPOSE 5000
 RUN pip install -r requirements.txt
