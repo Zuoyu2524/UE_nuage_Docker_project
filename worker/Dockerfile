@@ -6,13 +6,13 @@ ARG BUILDPLATFORM
 RUN echo $TARGETPLATFORM \
     && echo $TARGETARCH \
     && echo BUILDPLATFORM 
-WORKDIR /app
+WORKDIR /source 
 
-COPY . .source/
+COPY . .
 
 RUN dotnet restore -a $TARGETARCH
 RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
 
 FROM mcr.microsoft.com/dotnet/runtime:7.0
-
-CMD [ "dotnet", "Worker.dll" ]
+COPY --from=build /app /
+CMD [ "dotnet", "Worker.dll"]
