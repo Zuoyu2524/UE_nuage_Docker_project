@@ -1,24 +1,41 @@
 services:
-  vote:
-    image: /app
-    container_name: vote
-    ports: #Port mapping: 5000 is used inside the container (see Python code). Each instance of vote will use the external port 500x where x is the instance number
+  vote1:
+    build: ./vote1
+    container_name: vote1
+    ports:
       - "5000:5000"
+    networks:
+      - front-tier
+      - back-tier
+  vote2:
+    build: ./vote2
+    container_name: vote2
+    ports:
       - "5000:5001"
     networks:
       - front-tier
       - back-tier
-
+    
   result:
+    build: ./result
+    container_name: result
+    ports:
+      - "5000:5002"
     networks:
       - front-tier
       - back-tier
 
   seed:
+    build: ./seed
+    container_name: seed
+    ports:
+      - "5000:5003"
     networks:
       - front-tier
 
   worker:
+    build: ./worker
+    container_name: worker
     networks:
       - back-tier
 
