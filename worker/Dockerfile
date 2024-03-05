@@ -14,5 +14,6 @@ RUN dotnet restore -a $TARGETARCH
 RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
 
 FROM mcr.microsoft.com/dotnet/runtime:7.0
-COPY --from=build /app /
+WORKDIR /app
+COPY --from=build /app .
 CMD [ "dotnet", "Worker.dll"]

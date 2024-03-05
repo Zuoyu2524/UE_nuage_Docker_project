@@ -1,7 +1,7 @@
 FROM node:21.6.2-alpine3.18
 WORKDIR /usr/local/app
 COPY . .
-RUN npm install
+
 RUN npm install -g nodemon
 
 RUN npm ci \ 
