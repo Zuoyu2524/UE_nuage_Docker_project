@@ -55,7 +55,7 @@ services:
     build: ./result
     container_name: result
     ports:
-      - "5002:5000"
+      - "5002:5000" 
     networks:
       - front-tier
       - back-tier
