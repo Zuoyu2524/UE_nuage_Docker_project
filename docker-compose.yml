@@ -17,6 +17,7 @@ services:
       - back-tier
 
   worker:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/worker
     build:
       context: ./worker
     container_name: worker
@@ -27,6 +28,7 @@ services:
       - back-tier
 
   vote1:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/vote
     build: ./vote
     ports:
     #port host machine:port container
@@ -44,6 +46,7 @@ services:
       - back-tier
 
   result:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/result
     build: ./result
     container_name: result
     ports:
@@ -55,6 +58,7 @@ services:
       - db
 
   seed:
+    #image: eloi13009/seed-data
     build: ./seed-data
     container_name: seed
     depends_on:
@@ -63,6 +67,7 @@ services:
       - front-tier
 
   nginx:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/nginx
     build: ./nginx
     container_name: nginx
     ports:

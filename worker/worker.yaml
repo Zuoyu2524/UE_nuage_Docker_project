@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: worker
+      labels:
+        app: worker
+    spec:
+      containers:
+      - image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/worker
+        name: worker
