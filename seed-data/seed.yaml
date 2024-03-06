@@ -1,4 +1,0 @@
-apiVersion: v1
-kind: Job
-metadata:
-  name: seed-data
