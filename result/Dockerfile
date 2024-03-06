@@ -8,6 +8,7 @@ RUN npm ci \
 && npm cache clean --force \ 
 && mv /usr/local/app/node_modules /node_modules
 
-EXPOSE 5002
+EXPOSE 80
+ENV PORT=80
 
 CMD [ "node", "server.js" ]
