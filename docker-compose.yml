@@ -58,7 +58,7 @@ services:
       - db
 
   seed:
-    #image: eloi13009/seed-data
+    #image: eloip13009/seed-data
     build: ./seed-data
     container_name: seed
     depends_on:
