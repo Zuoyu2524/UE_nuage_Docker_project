@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-data
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: seed-data
+        image: eloip13009/seed-data
+        #image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/seed-data
+      restartPolicy: Never

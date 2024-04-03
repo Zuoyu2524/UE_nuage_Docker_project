@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    networks:
+      - back-tier
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    networks:
+      - back-tier
+
+  worker:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/worker
+    build:
+      context: ./worker
+    container_name: worker
+    depends_on:
+      - redis
+      - db
+    networks:
+      - back-tier
+
+  vote1:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/vote
+    build: ./vote
+    ports:
+    #port host machine:port container
+      - "5000:5000"
+    networks:
+      - front-tier
+      - back-tier
+
+  vote2:
+    build: ./vote
+    ports:
+      - "5001:5000"
+    networks:
+      - front-tier
+      - back-tier
+
+  result:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/result
+    build: ./result
+    container_name: result
+    ports:
+      - "5002:80" 
+    networks:
+      - front-tier
+      - back-tier
+    depends_on:
+      - db
+
+  seed:
+    #image: eloip13009/seed-data
+    build: ./seed-data
+    container_name: seed
+    depends_on:
+      - nginx
+    networks:
+      - front-tier
+
+  nginx:
+    image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/nginx
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - 8080:80
+    networks:
+      - front-tier
+    depends_on:
+      - vote1
+      - vote2
+
+volumes:
+  db-data:
+
+networks:
+  front-tier: {}
+  back-tier: {}

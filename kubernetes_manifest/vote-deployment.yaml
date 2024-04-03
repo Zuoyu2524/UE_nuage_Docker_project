@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: vote
+  replicas: 3
+  template:
+    metadata:
+      name: vote
+      labels:
+        app: vote
+    spec:
+      containers:
+      - image: europe-west9-docker.pkg.dev/tuto-terraform-truan/voting-image/vote
+        name: vote
